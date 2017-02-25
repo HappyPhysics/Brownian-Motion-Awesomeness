@@ -9,19 +9,22 @@ public class Grain : MonoBehaviour {
 	private float forceMuY = 0;  // average of the force in the y direction
 	private float forceSigma; // standard deviation of the force.
 
+	private Vector2 startingPosition;
+
 	// Use this for initialization
 	void Start () {
-		forceSigma =10* Mathf.Sqrt (Time.fixedDeltaTime);
+		forceSigma = 300.0f * Mathf.Sqrt (Time.fixedDeltaTime);
 		grainRB = GetComponent<Rigidbody2D> (); 
+		startingPosition = transform.position;
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		grainRB.AddForce (randomForceEta());
 
-		Vector2 grainPosition = transform.position;
-		if (grainPosition.x > 5.5f || grainPosition.y > 5.5f) {
-			transform.position = Vector2.zero;
+		Vector2 grainDisplacement = (Vector2) transform.position - startingPosition;
+		if (Mathf.Abs(grainDisplacement.x) > 1.65f || Mathf.Abs(grainDisplacement.y) > 1.65f) {
+			transform.position = startingPosition;
 		}
 	}
 
@@ -31,13 +34,13 @@ public class Grain : MonoBehaviour {
 	**********************************************************************************************/
 	Vector2 randomForceEta() {
 		// First genereate the two uniformly distributed numbers.
-		Random.InitState(System.DateTime.Now.Millisecond);
+		Random.InitState(System.DateTime.Now.Millisecond + 3* Random.Range(0, 50));
 		float u1 = Random.Range(0.0000001f, 1.0f);
-		Random.InitState(System.DateTime.Now.Millisecond);
+		Random.InitState(System.DateTime.Now.Millisecond +3* Random.Range(0, 50));
 		float u2 = Random.Range(0.0000001f, 1.0f);
 		// Transform from u1 and u2 to rescaled polar coordinates R, theta
 		float R = Mathf.Sqrt(-2 * Mathf.Log(u1));
-		float theta = 2 * Mathf.PI * u1;
+		float theta = 2 * Mathf.PI * u1 * Mathf.Rad2Deg;
 
 		// Transform to standard normally distributed x,y coordinates of the force
 		float Fx = R * Mathf.Cos (theta);
@@ -48,6 +51,6 @@ public class Grain : MonoBehaviour {
 		Fy = forceSigma * Fy + forceMuY;
 
 		// return the 2D force
-		return 10.0f *(new Vector2(Fx, Fy));
+		return  (new Vector2(Fx, Fy));
 	}
 }

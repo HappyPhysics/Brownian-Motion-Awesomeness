@@ -7,4 +7,12 @@ First Commit:
 
 Second Commit: 
 	before: I will try to fix the force and make it truely random. Then I will start putting realistic parameters
-	for average and standard deviation of the force.	
+	for average and standard deviation of the force.
+	
+	After: The force on the grain is random (converted angle to degrees). I'm having problems instantiating many 
+	molecules at the same time becuase thier position is not random even though I tried to change the seed for each.
+	I didn't put the dependence on microscopic parameters yet (like temperature and molecule masses).
+	Also I'm showing 4 motions at the same time on repeat for the statistics to be obvious.	
+
+Third Commit: 
+	before: I will upload to itch. Then I will fix molecules randomness and wall collisions.
